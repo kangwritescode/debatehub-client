@@ -7,6 +7,21 @@ const ImageUpload = props => {
     const [file, setFile] = useState()
     const [previewUrl, setPreviewUrl] = useState()
     const [isValid, setIsValid] = useState(false)
+    const filePickerRef = useRef()
+
+    // when we have picked a image file, sets the preview url using FileReader API
+    useEffect(() => {
+        if (!file) {
+            return;
+        }
+        const fileReader = new FileReader();
+
+        fileReader.onload = () => {
+            setPreviewUrl(fileReader.result)
+        }
+        fileReader.readAsDataURL(file)
+
+    }, [file])
 
     const pickImageHandler = () => {
         filePickerRef.current.click()
@@ -25,7 +40,7 @@ const ImageUpload = props => {
         }
         props.onInput(props.id, pickedFile, fileIsValid)
     }
-    const filePickerRef = useRef()
+
     return (
         <div className='form-control'>
             <input
@@ -37,8 +52,10 @@ const ImageUpload = props => {
                 onChange={pickedHandler}
             />
             <div className={`image-upload ${props.center && 'center'}`}>
-                <img src='' alt='Preview' />
+                {previewUrl && <img src={previewUrl} alt='Preview' />}
+                {!previewUrl && <p>Please pick an Image.</p>}
             </div>
+            {!isValid && <p>{props.errorText}</p>}
             <Button type='button' onClick={pickImageHandler}>PICK IMAGE</Button>
         </div>
     )
