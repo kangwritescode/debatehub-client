@@ -98,8 +98,9 @@ const Auth = () => {
           'POST',
           formData
         );
-
-        auth.login(responseData.Id, responseData.token);
+        
+        auth.login(responseData.userId, responseData.token);
+        console.log("new account token: ", responseData.token)
       } catch (err) { }
     }
   };
