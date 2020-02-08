@@ -5,11 +5,13 @@ import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE
 } from '../../shared/util/validators';
+
 import { useForm } from '../../shared/hooks/form-hook';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import { AuthContext } from '../../shared/context/auth-context';
@@ -81,7 +83,7 @@ const Auth = () => {
             'Content-Type': 'application/json'
           }
         );
-        auth.login(responseData.user.id);
+        auth.login(responseData.userId, responseData.token);
       } catch (err) { }
     } else {
       try {
@@ -97,7 +99,7 @@ const Auth = () => {
           formData
         );
 
-        auth.login(responseData.user.id);
+        auth.login(responseData.Id, responseData.token);
       } catch (err) { }
     }
   };
